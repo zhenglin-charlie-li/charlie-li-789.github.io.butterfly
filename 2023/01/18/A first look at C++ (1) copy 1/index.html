@@ -1,0 +1,226 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A first look at C++ (1) copy 1 | 熊儿老猫的博客</title><meta name="description" content="Introduction to C++ Basics1 Introduction to C++First C++ programThere are 4 steps to writing a C++ program Creating a projectCreating the fileWriting the codeRunning the program1.1.1 Creating a projec"><meta name="author" content="Zhenglin Li"><meta name="copyright" content="Zhenglin Li"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://9pshr3.coding-pages.com/2023/01/18/A%20first%20look%20at%20C++%20(1)%20copy%201/"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="preconnect" href="//zz.bdstatic.com"/><meta property="og:type" content="article"><meta property="og:title" content="A first look at C++ (1) copy 1"><meta property="og:url" content="http://9pshr3.coding-pages.com/2023/01/18/A%20first%20look%20at%20C++%20(1)%20copy%201/"><meta property="og:site_name" content="熊儿老猫的博客"><meta property="og:description" content="Introduction to C++ Basics1 Introduction to C++First C++ programThere are 4 steps to writing a C++ program Creating a projectCreating the fileWriting the codeRunning the program1.1.1 Creating a projec"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/useblue/ucdn/imgs/bp-7.webp"><meta property="article:published_time" content="2023-01-18T12:11:42.993Z"><meta property="article:modified_time" content="2023-01-18T11:50:42.974Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+  }
+}
+
+var getCookies = function (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+var autoChangeMode = 'true'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (Cookies.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?0773dcadd0397be86eb74da114bd1757";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: false,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: true,
+  highlightCopy: true,
+  highlightLang: true,
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false    
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2023-01-18 19:50:42'
+}</script><noscript><style>
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><link rel="stylesheet" href="/css/iconfont.css"><meta name="generator" content="Hexo 4.2.1"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" data-lazy-src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">42</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">15</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">9</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/books/"><i class="fa-fw fas fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/games/"><i class="fa-fw fas fa-gamepad"></i><span> 游戏</span></a></li><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><div id="web_bg" data-type="photo"></div><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Introduction-to-C-Basics"><span class="toc-number">1.</span> <span class="toc-text">Introduction to C++ Basics</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-Introduction-to-C"><span class="toc-number">2.</span> <span class="toc-text">1 Introduction to C++</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#First-C-program"><span class="toc-number">3.</span> <span class="toc-text">First C++ program</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Comments"><span class="toc-number">4.</span> <span class="toc-text">Comments</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Variables"><span class="toc-number">5.</span> <span class="toc-text">Variables</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#constants"><span class="toc-number">6.</span> <span class="toc-text">constants</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#keywords"><span class="toc-number">7.</span> <span class="toc-text">keywords</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Identifier-naming-rules"><span class="toc-number">8.</span> <span class="toc-text">Identifier naming rules</span></a></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(https://cdn.jsdelivr.net/gh/useblue/ucdn/imgs/bp-7.webp)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">熊儿老猫的博客</a></span><span class="pull-right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/books/"><i class="fa-fw fas fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/games/"><i class="fa-fw fas fa-gamepad"></i><span> 游戏</span></a></li><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">A first look at C++ (1) copy 1</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-01-18T12:11:42.993Z" title="发表于 2023-01-18 20:11:42">2023-01-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-01-18T11:50:42.974Z" title="更新于 2023-01-18 19:50:42">2023-01-18</time></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">607</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h1 id="Introduction-to-C-Basics"><a href="#Introduction-to-C-Basics" class="headerlink" title="Introduction to C++ Basics"></a>Introduction to C++ Basics</h1><h1 id="1-Introduction-to-C"><a href="#1-Introduction-to-C" class="headerlink" title="1 Introduction to C++"></a>1 Introduction to C++</h1><h1 id="First-C-program"><a href="#First-C-program" class="headerlink" title="First C++ program"></a>First C++ program</h1><p>There are 4 steps to writing a C++ program</p>
+<p>Creating a project<br>Creating the file<br>Writing the code<br>Running the program<br>1.1.1 Creating a project<br>Visual Studio is the main tool we use to write C++ programs, so let’s open it first<br>! [1541383178746](C:\Users\Zhenglin Li\Desktop\assets\1541383178746.png)</p>
+<p>! [1541384366413](C:\Users\Zhenglin Li\Desktop\assets\1541384366413.png)</p>
+<p>1.1.2 Create the file<br>Right-click the source file and select Add-&gt;New Item</p>
+<p>! [1541383817248](C:\Users\Zhenglin Li\Desktop\assets\1541383817248.png)</p>
+<p>Give the C++ file a name, and click Add.</p>
+<p>! [1541384140042](C:\Users\Zhenglin Li\Desktop\assets\1541384140042.png)</p>
+<p>1.1.3 Writing the code<br>C++<br>#include<iostream><br>using namespace std;</p>
+<p>int main() {</p>
+<pre><code>cout &lt;&lt; &quot;Hello world&quot; &lt;&lt; endl;
+
+system(&quot;pause&quot;);
+
+return 0;</code></pre><p>}<br>1.1.4 Running the program<br>! [1541384818688](C:\Users\Zhenglin Li\Desktop\assets\1541384818688.png)</p>
+<h1 id="Comments"><a href="#Comments" class="headerlink" title="Comments"></a>Comments</h1><p>Function: Add some notes and explanations to the code to make it easier for yourself or other programmers programmers to read the code</p>
+<p>Two formats</p>
+<p>Single line comments: // descriptive information<br>usually placed above a line of code, or at the end of a statement, == description of the line of code ==<br>Multi-line comments: /_ descriptive information _/<br>Usually placed at the top of a line of code, == an overall description of the line of code ==<br>Tip: The compiler ignores comments when compiling code</p>
+<h1 id="Variables"><a href="#Variables" class="headerlink" title="Variables"></a>Variables</h1><p>Function: Name a specified section of memory to facilitate manipulation of that memory.</p>
+<p>Syntax: Data type Variable name = initial value;</p>
+<p>Example.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//variable definition</span></span><br><span class="line">    <span class="comment">// Syntax: data type Variable name = initial value</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"a = "</span> &lt;&lt; a &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    system(<span class="string">"pause"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Note: C++ must give the variable an initial value when creating it, otherwise it will report an error</p>
+<h1 id="constants"><a href="#constants" class="headerlink" title="constants"></a>constants</h1><p>Role: Used to record data that cannot be changed in the program</p>
+<p>C++ defines constants in two ways</p>
+<p>#define macro constants: #define constant name constant value<br>== is usually defined at the top of the file ==, indicating a constant<br>const modified variable const data type constant name = constant value<br>== usually precedes the variable definition with the keyword const==, which modifies the variable as a constant and cannot be modified<br>Example.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1/1. Macro constants</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> day 7</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"There are a total of "</span> &lt;&lt; day &lt;&lt; <span class="string">" days in a week"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="comment">//day = 8; // error, macro constants can not be modified</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//2. const modifies variables</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> month = <span class="number">12</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"There are a total of "</span> &lt;&lt; month &lt;&lt; <span class="string">" months in a year"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="comment">// month = 24; // error, const is not modifiable</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    system(<span class="string">"pause"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="keywords"><a href="#keywords" class="headerlink" title="keywords"></a>keywords</h1><p>Role: Keywords are pre-preserved words (identifiers) in C++</p>
+<p>When defining variables or constants, do not use keywords<br>C++ keywords are as follows.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">asm</span> <span class="keyword">do</span> <span class="keyword">if</span> <span class="keyword">return</span> <span class="keyword">typedef</span></span><br><span class="line"><span class="keyword">auto</span> <span class="keyword">double</span> <span class="keyword">inline</span> short <span class="keyword">typeid</span></span><br><span class="line"><span class="keyword">bool</span> <span class="keyword">dynamic_cast</span> <span class="keyword">int</span> <span class="keyword">signed</span> <span class="keyword">typename</span></span><br><span class="line"><span class="keyword">break</span> <span class="keyword">else</span> <span class="keyword">long</span> <span class="keyword">sizeof</span> <span class="keyword">union</span></span><br><span class="line"><span class="keyword">case</span> <span class="keyword">enum</span> <span class="keyword">mutable</span> <span class="keyword">static</span> <span class="keyword">unsigned</span></span><br><span class="line"><span class="keyword">catch</span> <span class="keyword">explicit</span> <span class="keyword">namespace</span> <span class="keyword">static_cast</span> <span class="keyword">using</span></span><br><span class="line"><span class="keyword">char</span> <span class="keyword">export</span> <span class="keyword">new</span> struct <span class="keyword">virtual</span></span><br><span class="line">class <span class="keyword">extern</span> <span class="keyword">operator</span> <span class="keyword">switch</span> <span class="keyword">void</span></span><br><span class="line"><span class="keyword">const</span> <span class="literal">false</span> <span class="keyword">private</span> <span class="keyword">template</span> <span class="keyword">volatile</span></span><br><span class="line"><span class="keyword">const_cast</span> <span class="keyword">float</span> <span class="keyword">protected</span> <span class="keyword">this</span> <span class="keyword">wchar_t</span></span><br><span class="line"><span class="keyword">continue</span> <span class="keyword">for</span> <span class="keyword">public</span> <span class="keyword">throw</span> <span class="keyword">while</span></span><br><span class="line"><span class="keyword">default</span> <span class="keyword">friend</span> <span class="keyword">register</span> <span class="literal">true</span></span><br><span class="line"><span class="keyword">delete</span> <span class="keyword">goto</span> <span class="keyword">reinterpret_cast</span> <span class="keyword">try</span></span><br></pre></td></tr></table></figure>
+
+<p>Tip: When naming variables or constants, do not use C++ keywords, otherwise ambiguity will arise.</p>
+<h1 id="Identifier-naming-rules"><a href="#Identifier-naming-rules" class="headerlink" title="Identifier naming rules"></a>Identifier naming rules</h1><p>Function: C++ has its own rules for naming identifiers (variables, constants)</p>
+<p>Identifiers cannot be keywords.<br>Identifiers can only consist of letters, numbers, and underscores<br>The first character must be a letter or an underscore<br>Letters in identifiers are case-sensitive<br>Suggestions: When naming identifiers, try to achieve the effect of knowing the name to make it easier for yourself and others to read</p>
+<!--
+# C++基础入门
+
+# 1 C++初识
+
+# 第一个 C++程序
+
+编写一个 C++程序总共分为 4 个步骤
+
+创建项目
+创建文件
+编写代码
+运行程序
+1.1.1 创建项目
+Visual Studio 是我们用来编写 C++程序的主要工具，我们先将它打开
+![1541383178746](C:\Users\Zhenglin Li\Desktop\assets\1541383178746.png)
+
+![1541384366413](C:\Users\Zhenglin Li\Desktop\assets\1541384366413.png)
+
+1.1.2 创建文件
+右键源文件，选择添加->新建项
+
+![1541383817248](C:\Users\Zhenglin Li\Desktop\assets\1541383817248.png)
+
+给 C++文件起个名称，然后点击添加即可。
+
+![1541384140042](C:\Users\Zhenglin Li\Desktop\assets\1541384140042.png)
+
+1.1.3 编写代码
+C++
+#include<iostream>
+using namespace std;
+
+int main() {
+
+    cout << "Hello world" << endl;
+
+    system("pause");
+
+    return 0;
+
+}
+1.1.4 运行程序
+![1541384818688](C:\Users\Zhenglin Li\Desktop\assets\1541384818688.png)
+
+# 注释
+
+作用：在代码中加一些说明和解释，方便自己或其他程序员程序员阅读代码
+
+两种格式
+
+单行注释：// 描述信息
+通常放在一行代码的上方，或者一条语句的末尾，==对该行代码说明==
+多行注释： /_ 描述信息 _/
+通常放在一段代码的上方，==对该段代码做整体说明==
+提示：编译器在编译代码时，会忽略注释的内容
+
+# 变量
+
+作用：给一段指定的内存空间起名，方便操作这段内存
+
+语法：数据类型 变量名 = 初始值;
+
+示例：
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//变量的定义</span></span><br><span class="line">    <span class="comment">//语法：数据类型  变量名 = 初始值</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"a = "</span> &lt;&lt; a &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    system(<span class="string">"pause"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意：C++在创建变量时，必须给变量一个初始值，否则会报错</p>
+<h1 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h1><p>作用：用于记录程序中不可更改的数据</p>
+<p>C++定义常量两种方式</p>
+<p>#define 宏常量： #define 常量名 常量值<br>==通常在文件上方定义==，表示一个常量<br>const 修饰的变量 const 数据类型 常量名 = 常量值<br>==通常在变量定义前加关键字 const==，修饰该变量为常量，不可修改<br>示例：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1、宏常量</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> day 7</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"一周里总共有 "</span> &lt;&lt; day &lt;&lt; <span class="string">" 天"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="comment">//day = 8;  //报错，宏常量不可以修改</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//2、const修饰变量</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> month = <span class="number">12</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"一年里总共有 "</span> &lt;&lt; month &lt;&lt; <span class="string">" 个月份"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="comment">//month = 24; //报错，常量是不可以修改的</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    system(<span class="string">"pause"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h1><p>作用：关键字是 C++中预先保留的单词（标识符）</p>
+<p>在定义变量或者常量时候，不要用关键字<br>C++关键字如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">asm</span> <span class="keyword">do</span> <span class="keyword">if</span> <span class="keyword">return</span> <span class="keyword">typedef</span></span><br><span class="line"><span class="keyword">auto</span> <span class="keyword">double</span> <span class="keyword">inline</span> short <span class="keyword">typeid</span></span><br><span class="line"><span class="keyword">bool</span> <span class="keyword">dynamic_cast</span> <span class="keyword">int</span> <span class="keyword">signed</span> <span class="keyword">typename</span></span><br><span class="line"><span class="keyword">break</span> <span class="keyword">else</span> <span class="keyword">long</span> <span class="keyword">sizeof</span> <span class="keyword">union</span></span><br><span class="line"><span class="keyword">case</span> <span class="keyword">enum</span> <span class="keyword">mutable</span> <span class="keyword">static</span> <span class="keyword">unsigned</span></span><br><span class="line"><span class="keyword">catch</span> <span class="keyword">explicit</span> <span class="keyword">namespace</span> <span class="keyword">static_cast</span> <span class="keyword">using</span></span><br><span class="line"><span class="keyword">char</span> <span class="keyword">export</span> <span class="keyword">new</span> struct <span class="keyword">virtual</span></span><br><span class="line">class <span class="keyword">extern</span> <span class="keyword">operator</span> <span class="keyword">switch</span> <span class="keyword">void</span></span><br><span class="line"><span class="keyword">const</span> <span class="literal">false</span> <span class="keyword">private</span> <span class="keyword">template</span> <span class="keyword">volatile</span></span><br><span class="line"><span class="keyword">const_cast</span> <span class="keyword">float</span> <span class="keyword">protected</span> <span class="keyword">this</span> <span class="keyword">wchar_t</span></span><br><span class="line"><span class="keyword">continue</span> <span class="keyword">for</span> <span class="keyword">public</span> <span class="keyword">throw</span> <span class="keyword">while</span></span><br><span class="line"><span class="keyword">default</span> <span class="keyword">friend</span> <span class="keyword">register</span> <span class="literal">true</span></span><br><span class="line"><span class="keyword">delete</span> <span class="keyword">goto</span> <span class="keyword">reinterpret_cast</span> <span class="keyword">try</span></span><br></pre></td></tr></table></figure>
+
+<p>提示：在给变量或者常量起名称时候，不要用 C++得关键字，否则会产生歧义。</p>
+<h1 id="标识符命名规则"><a href="#标识符命名规则" class="headerlink" title="标识符命名规则"></a>标识符命名规则</h1><p>作用：C++规定给标识符（变量、常量）命名时，有一套自己的规则</p>
+<p>标识符不能是关键字<br>标识符只能由字母、数字、下划线组成<br>第一个字符必须为字母或下划线<br>标识符中字母区分大小写<br>建议：给标识符命名时，争取做到见名知意的效果，方便自己和他人的阅读 –&gt;</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Zhenglin Li</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://9pshr3.coding-pages.com/2023/01/18/A%20first%20look%20at%20C++%20(1)%20copy%201/">http://9pshr3.coding-pages.com/2023/01/18/A%20first%20look%20at%20C++%20(1)%20copy%201/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://9pshr3.coding-pages.com" target="_blank">熊儿老猫的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/useblue/ucdn/imgs/bp-7.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="../assets/wechatpay.jpg" target="_blank"><img class="post-qr-code-img" data-lazy-src="/../assets/wechatpay.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="../assets/alipay.jpg" target="_blank"><img class="post-qr-code-img" data-lazy-src="/../assets/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/01/18/A%20first%20look%20at%20C++%20(1)%20copy%202/"><img class="prev-cover" data-lazy-src="https://cdn.jsdelivr.net/gh/useblue/ucdn/imgs/bp-8.webp" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">A first look at C++ (1) copy 2</div></div></a></div><div class="next-post pull-right"><a href="/2023/01/18/Traversal%20of%20a%20binary%20tree/"><img class="next-cover" data-lazy-src="https://cdn.jsdelivr.net/gh/useblue/ucdn/imgs/bp-6.webp" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Traversal of a binary tree</div></div></a></div></nav></article></main><footer id="footer" style="background-image: url(https://cdn.jsdelivr.net/gh/useblue/ucdn/imgs/bp-7.webp)" data-type="photo"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Zhenglin Li</div><div class="framework-info"><span>框架 </span><a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font_plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font_minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script><script>var endLoading = function () {
+  document.body.style.overflow = 'auto';
+  document.getElementById('loading-box').classList.add("loaded")
+}
+window.addEventListener('load',endLoading)</script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><canvas class="fireworks"></canvas><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="/js/third-party/fireworks.js"></script><script defer="defer" id="ribbon_piao" mobile="false" src="/js/third-party/piao.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="/js/third-party/canvas-nest.js"></script></div><script src="https://cdn.jsdelivr.net/npm/live2d-widget@^3.1.3/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"superSample":2,"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-90},"mobile":{"show":true,"scale":1},"react":{"opacityDefault":0.3,"opacityOnHover":0.3,"opacity":0.95},"log":false});</script></body></html>

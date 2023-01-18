@@ -1,0 +1,168 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Quick Sort Questions | 熊儿老猫的博客</title><meta name="description" content="快速排序虽然大家都能默写出快速排序, 但是这几个问题是我在今天一个等于符号错误的时候引申出来的, 记录一下, 本文现讲正确性, 再谈优化  为什么一定要先从右边开始?? 能不能先从左边开始?其实不一定要先从右边开始, 当你要升序排序的时候, 从右边开始, 反之亦然 从右边开始是因为要保证 left 指向的值在退出循环时永远小于等于 pivot, 保证随后的中枢值归位 swap(nums, piv"><meta name="author" content="Zhenglin Li"><meta name="copyright" content="Zhenglin Li"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://9pshr3.coding-pages.com/2023/01/18/Quick%20Sort%20Questions/"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="preconnect" href="//zz.bdstatic.com"/><meta property="og:type" content="article"><meta property="og:title" content="Quick Sort Questions"><meta property="og:url" content="http://9pshr3.coding-pages.com/2023/01/18/Quick%20Sort%20Questions/"><meta property="og:site_name" content="熊儿老猫的博客"><meta property="og:description" content="快速排序虽然大家都能默写出快速排序, 但是这几个问题是我在今天一个等于符号错误的时候引申出来的, 记录一下, 本文现讲正确性, 再谈优化  为什么一定要先从右边开始?? 能不能先从左边开始?其实不一定要先从右边开始, 当你要升序排序的时候, 从右边开始, 反之亦然 从右边开始是因为要保证 left 指向的值在退出循环时永远小于等于 pivot, 保证随后的中枢值归位 swap(nums, piv"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/useblue/ucdn/imgs/bp-6.webp"><meta property="article:published_time" content="2023-01-18T12:11:42.976Z"><meta property="article:modified_time" content="2023-01-18T12:01:19.914Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+  }
+}
+
+var getCookies = function (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+var autoChangeMode = 'true'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (Cookies.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?0773dcadd0397be86eb74da114bd1757";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: false,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: true,
+  highlightCopy: true,
+  highlightLang: true,
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false    
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: false,
+  postUpdate: '2023-01-18 20:01:19'
+}</script><noscript><style>
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><link rel="stylesheet" href="/css/iconfont.css"><meta name="generator" content="Hexo 4.2.1"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" data-lazy-src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">42</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">15</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">9</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/books/"><i class="fa-fw fas fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/games/"><i class="fa-fw fas fa-gamepad"></i><span> 游戏</span></a></li><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><div id="web_bg" data-type="photo"></div><header class="post-bg" id="page-header" style="background-image: url(https://cdn.jsdelivr.net/gh/useblue/ucdn/imgs/bp-6.webp)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">熊儿老猫的博客</a></span><span class="pull-right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/books/"><i class="fa-fw fas fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/games/"><i class="fa-fw fas fa-gamepad"></i><span> 游戏</span></a></li><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">Quick Sort Questions</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-01-18T12:11:42.976Z" title="发表于 2023-01-18 20:11:42">2023-01-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-01-18T12:01:19.914Z" title="更新于 2023-01-18 20:01:19">2023-01-18</time></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><ol start="912">
+<li>快速排序<br>虽然大家都能默写出快速排序, 但是这几个问题是我在今天一个等于符号错误的时候引申出来的, 记录一下, 本文现讲正确性, 再谈优化</li>
+</ol>
+<p>为什么一定要先从右边开始?? 能不能先从左边开始?<br>其实不一定要先从右边开始, 当你要升序排序的时候, 从右边开始, 反之亦然</p>
+<p>从右边开始是因为要保证 left 指向的值在退出循环时永远小于等于 pivot, 保证随后的中枢值归位 swap(nums, pivot_index, left);的正确性.</p>
+<p>正确性<br>partition 判断时的等号,什么时候取,为什么?<br>先别往下看, 可以试着猜想下</p>
+<p>image.png<br>image.png</p>
+<p>image.png<br>image.png</p>
+<p>image.png<br>image.png</p>
+<p>image.png<br>image.png</p>
+<p>这个问题我在没有 debug 之前想了很久, 后来发现, 其实简单地在 nums[low] 和 pivot 作判断的那一行打上断点, 就能轻松解决.</p>
+<p>错误的:<br>image.png<br>image.png</p>
+<p>我们发现, 如果判断条件是 nums[low] &lt; pivot 的话, 这个条件其实永远不会满足, 因为 low 初始时指向的是 pivot, 也就是 nums[low] = pivot 成立, 自己和自己比较, 自己当然不会比自己小, 所以 nums[low] &lt; pivot 的写法是错误的!!!</p>
+<p>有的同学可能会说, 如果是因为自身和自身比较的话, 那我先把 left++是不是就是可以了呢? 其实这样更是大错特错, 因为把 partition 的区间无缘由地缩小了 1, 抛弃了最左边的元素.</p>
+<p>设想这样的情形, 原数组是有序的, 即选取了最小的数作为 pivot, 如果 left++后, 退出循环时 left 为最小的数右边, 最后还要进行交换 swap(nums, pivot_index, left);, 直接把最小的数换到第二位去了, 更是不可取.</p>
+<p>关于 nums[high] 和 pivot 作比较的情况, leetcode 提交验证显示都能通过, 我们可以这样想, 如果 nums[high] 和 pivot 作比较时加了=号, 即 while (left &lt; right &amp;&amp; nums[right] &gt; pivot), 那么等于 pivot 的元素分布于 partition 操作的两端, 否则只会出现在左半部分.</p>
+<p>按照语义来讲, 应该采用的是:</p>
+<p>Java<br>public int partition(int[] nums, int left, int right) {<br>int pivot_index = left;<br>int pivot = nums[pivot_index];<br>while (left &lt; right) {<br>while (left &lt; right &amp;&amp; nums[right] &gt; pivot)<br>right–;<br>while (left &lt; right &amp;&amp; nums[left] &lt;= pivot)<br>left++;<br>if (left &lt; right)<br>swap(nums, left, right);<br>}<br>swap(nums, pivot_index, left);<br>return left;<br>}<br>partition 策略? 快慢指针, 左右指针?<br>左右指针就是上面那四个图的做法, 其实还有一种做法, 是快慢指针, 如下</p>
+<p>Java<br>public int partition(int[] nums, int left, int right) {<br>int pivot = nums[left];<br>int smaller_tail_index = left;<br>for (int i = left + 1; i &lt;= right; i++) {<br>if (nums[i] &lt; pivot) {<br>smaller_tail_index++;<br>swap(nums, smaller_tail_index, i);<br>}<br>}<br>swap(nums, smaller_tail_index, left);<br>return smaller_tail_index;<br>}<br>Time / Spcace Complexity<br>复杂度分析：</p>
+<p>时间复杂度：O(NlogN)，这里 N 是数组的长度, 最坏情况下为 O(N^2)<br>空间复杂度：O(logN)，这里占用的空间来自递归函数的栈空间<br>什么时候最坏?</p>
+<p>每次 partition 操作都导致左右分割极不均衡, 递归树的深度由 O(logN)变为链表的 O(N)</p>
+<p>之后优化也就是在递归树上做文章</p>
+<p>优化<br>partition_random 的优化? random 函数?<br>使用 random()函数来进行优化非常简单, 只需要随机选一个数, 和最左边的元素交换位置即可, 之后进入正常的 partition 操作</p>
+<p>Java<br>public int partition_random(int[] nums, int left, int right) {<br>int random_index = new Random().nextInt(right - left + 1) + left;<br>swap(nums, random_index, left);<br>return partition(nums, left, right);<br>}<br>partition_random? 三数取和?<br>有了随机选取, 为什么还要 三数取和?</p>
+<p>虽然随机选取枢轴时，减少出现不好分割的几率，但是还是最坏情况下还是 O(n^2），要缓解这种情况，就引入了三数取中选取枢轴, 它每次选取的一定不会是最坏的情况, 反而每次都是最好的情况</p>
+<p>可以这么理解, 三个数, 排序</p>
+<p>首先排序最右边两个数, middle 和 right, 选出大的, 放到最右边<br>然后, 我们排序一个数 left 和右边两个数, 因为右边两个数中较大者已经在末尾了, 所以我们比较 left 和 right 即可<br>最后, 我们把三个数中中间的那个数放到最开头 left 的位置. 因为此时三个数中最大的数已经放到 right 位置上了, left 和 middle 中较大的数既是三个数中中间大的数, 我们比较 left 和 middle 即可<br>Java<br>public int partition_random(int[] nums, int left, int right) {<br>int middle = left + (right - left) &gt;&gt; 1;<br>if (nums[middle] &gt; nums[right]) swap(nums, middle, right);<br>if (nums[left] &gt; nums[right]) swap(nums, left, right);<br>if (nums[middle] &gt; nums[left]) swap(nums, left, middle);<br>return partition(nums, left, right);<br>}<br>使用三数取中选择枢轴优势还是很明显的，但是还是处理不了重复数组</p>
+<p>优化相同的数, 放到数组的中间, 之后递归时直接不需要再次参与递归<br>此代码纯原创, 跑过了 leetcode, 还是很开心的呀 hhh!</p>
+<p>思路如下:</p>
+<p>使用 same_as_pivot_num 记录和 pivot 相同的数的个数, 并把相同的数都放到数组左边</p>
+<p>把和 pivot 相同的数(位于数组的左边)交换到和 pivot 相邻的左边</p>
+<p>然后使用数组, 把和 pivot 相同的数的个数 same_as_pivot_num 和 pivot 都传参传递出去</p>
+<p>向左边递归时即可跳过相同的元素!!!</p>
+<p>有注释, 基于之前的代码结构改变, 看懂前面的看这个小 case</p>
+<p>Java<br>public void quickSort(int[] nums, int start, int end) {<br>if (end &lt;= start) {<br>return;<br>}<br>int partition[] = partition(nums, start, end);<br>int partition_index = partition[0];<br>int same_as_pivot_num = partition[1];<br>quickSort(nums, start, partition_index - same_as_pivot_num - 1);<br>quickSort(nums, partition_index + 1, end);<br>}</p>
+<pre><code>public int[] partition(int[] nums, int left, int right) {
+    int pivot_index = left;
+    int pivot = nums[pivot_index];
+    int same_as_pivot_num = 0;
+    while (left &lt; right) {
+        while (left &lt; right &amp;&amp; nums[right] &gt; pivot)
+            right--;
+        while (left &lt; right &amp;&amp; nums[left] &lt;= pivot)
+            left++;
+        if (left &lt; right) {
+            swap(nums, left, right);
+            // 注意这里left和right已经交换了, 且交换前只有left有可能==pivot, 所以现在只需要判断right就行, 并把他们放到数组刚开始的位置
+            if (nums[right] == pivot)
+                swap(nums, left + 1 + same_as_pivot_num++, left);
+        }
+    }
+    swap(nums, pivot_index, left);
+    for (int i = 0; i &lt; same_as_pivot_num; i++) {
+        swap(nums, left + i, pivot_index - 1 - i);
+    }
+    return new int[]{left, same_as_pivot_num};
+}</code></pre><p>更多优化措施<br>设置阈值, 结合插入排序<br>疑似尾递归优化???查了资料, 发现并不是严格的尾递归优化策略, 这点存疑, 请大佬解答</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Zhenglin Li</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://9pshr3.coding-pages.com/2023/01/18/Quick%20Sort%20Questions/">http://9pshr3.coding-pages.com/2023/01/18/Quick%20Sort%20Questions/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://9pshr3.coding-pages.com" target="_blank">熊儿老猫的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/useblue/ucdn/imgs/bp-6.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="../assets/wechatpay.jpg" target="_blank"><img class="post-qr-code-img" data-lazy-src="/../assets/wechatpay.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="../assets/alipay.jpg" target="_blank"><img class="post-qr-code-img" data-lazy-src="/../assets/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/01/18/Sorting%20Algorithm/"><img class="prev-cover" data-lazy-src="https://cdn.jsdelivr.net/gh/useblue/ucdn/imgs/bp-8.webp" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Sorting Algorithm</div></div></a></div><div class="next-post pull-right"><a href="/2023/01/18/OS%20IPC%20Summary/"><img class="next-cover" data-lazy-src="https://cdn.jsdelivr.net/gh/useblue/ucdn/imgs/bp-7.webp" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">OS IPC Summary</div></div></a></div></nav></article></main><footer id="footer" style="background-image: url(https://cdn.jsdelivr.net/gh/useblue/ucdn/imgs/bp-6.webp)" data-type="photo"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Zhenglin Li</div><div class="framework-info"><span>框架 </span><a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font_plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font_minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script><script>var endLoading = function () {
+  document.body.style.overflow = 'auto';
+  document.getElementById('loading-box').classList.add("loaded")
+}
+window.addEventListener('load',endLoading)</script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><canvas class="fireworks"></canvas><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="/js/third-party/fireworks.js"></script><script defer="defer" id="ribbon_piao" mobile="false" src="/js/third-party/piao.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="/js/third-party/canvas-nest.js"></script></div><script src="https://cdn.jsdelivr.net/npm/live2d-widget@^3.1.3/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"superSample":2,"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-90},"mobile":{"show":true,"scale":1},"react":{"opacityDefault":0.3,"opacityOnHover":0.3,"opacity":0.95},"log":false});</script></body></html>
