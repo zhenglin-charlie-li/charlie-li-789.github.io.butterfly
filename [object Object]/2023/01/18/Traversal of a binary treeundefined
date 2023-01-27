@@ -1,0 +1,280 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Traversal of a binary tree | 熊儿老猫的博客</title><meta name="description" content="The previous article (binary tree, preorder traversal, middle-order traversal, post-order traversal) only described the traversal of binary tree in general, this article focuses on the analysis of the"><meta name="author" content="Zhenglin Li"><meta name="copyright" content="Zhenglin Li"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/ZhengLin-Li.github.io.butterfly/img/favicon.png"><link rel="canonical" href="https://zhenglin-li.github.io/ZhengLin-Li.github.io.butterfly/[object%20Object]/2023/01/18/Traversal%20of%20a%20binary%20treeundefined"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="preconnect" href="//zz.bdstatic.com"/><meta property="og:type" content="article"><meta property="og:title" content="Traversal of a binary tree"><meta property="og:url" content="https://zhenglin-li.github.io/ZhengLin-Li.github.io.butterfly/[object%20Object]/2023/01/18/Traversal%20of%20a%20binary%20treeundefined"><meta property="og:site_name" content="熊儿老猫的博客"><meta property="og:description" content="The previous article (binary tree, preorder traversal, middle-order traversal, post-order traversal) only described the traversal of binary tree in general, this article focuses on the analysis of the"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/useblue/ucdn/imgs/bp-6.webp"><meta property="article:published_time" content="2023-01-18T12:11:42.989Z"><meta property="article:modified_time" content="2023-01-18T11:14:13.519Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+  }
+}
+
+var getCookies = function (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+var autoChangeMode = 'true'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (Cookies.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><link rel="stylesheet" href="/ZhengLin-Li.github.io.butterfly/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?0773dcadd0397be86eb74da114bd1757";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/ZhengLin-Li.github.io.butterfly/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: false,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: true,
+  highlightCopy: true,
+  highlightLang: true,
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false    
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: false,
+  postUpdate: '2023-01-18 19:14:13'
+}</script><noscript><style>
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><link rel="stylesheet" href="/css/iconfont.css"><meta name="generator" content="Hexo 4.2.1"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" data-lazy-src="/ZhengLin-Li.github.io.butterfly/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/ZhengLin-Li.github.io.butterfly/archives/"><div class="headline">文章</div><div class="length_num">42</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/ZhengLin-Li.github.io.butterfly/tags/"><div class="headline">标签</div><div class="length_num">15</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/ZhengLin-Li.github.io.butterfly/categories/"><div class="headline">分类</div><div class="length_num">9</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/ZhengLin-Li.github.io.butterfly/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/ZhengLin-Li.github.io.butterfly/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/ZhengLin-Li.github.io.butterfly/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/ZhengLin-Li.github.io.butterfly/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/ZhengLin-Li.github.io.butterfly/books/"><i class="fa-fw fas fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/ZhengLin-Li.github.io.butterfly/games/"><i class="fa-fw fas fa-gamepad"></i><span> 游戏</span></a></li><li><a class="site-page" href="/ZhengLin-Li.github.io.butterfly/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/ZhengLin-Li.github.io.butterfly/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/ZhengLin-Li.github.io.butterfly/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/ZhengLin-Li.github.io.butterfly/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><div id="web_bg" data-type="photo"></div><header class="post-bg" id="page-header" style="background-image: url(https://cdn.jsdelivr.net/gh/useblue/ucdn/imgs/bp-6.webp)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/ZhengLin-Li.github.io.butterfly/">熊儿老猫的博客</a></span><span class="pull-right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/ZhengLin-Li.github.io.butterfly/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/ZhengLin-Li.github.io.butterfly/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/ZhengLin-Li.github.io.butterfly/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/ZhengLin-Li.github.io.butterfly/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/ZhengLin-Li.github.io.butterfly/books/"><i class="fa-fw fas fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/ZhengLin-Li.github.io.butterfly/games/"><i class="fa-fw fas fa-gamepad"></i><span> 游戏</span></a></li><li><a class="site-page" href="/ZhengLin-Li.github.io.butterfly/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/ZhengLin-Li.github.io.butterfly/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/ZhengLin-Li.github.io.butterfly/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/ZhengLin-Li.github.io.butterfly/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">Traversal of a binary tree</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-01-18T12:11:42.989Z" title="发表于 2023-01-18 20:11:42">2023-01-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-01-18T11:14:13.519Z" title="更新于 2023-01-18 19:14:13">2023-01-18</time></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">5.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>23分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><p>The previous article (binary tree, preorder traversal, middle-order traversal, post-order traversal) only described the traversal of binary tree in general, this article focuses on the analysis of the traversal order of pre, middle and post-order</p>
+<p>Binary tree traversal<br>The depth-first traversal of a binary tree can be subdivided into preorder traversal, middle-order traversal, and postorder traversal, which can be implemented recursively (this essay focuses on recursive implementation) or non-recursively</p>
+<p>Pre-order traversal: root-&gt;left subtree -&gt; right subtree (root-&gt;left-&gt;right)</p>
+<p>Middle-order traversal: left subtree -&gt; root node -&gt; right subtree (left -&gt; root -&gt; right)</p>
+<p>Post-order traversal: left subtree -&gt; right subtree -&gt; root (left-&gt;right-&gt;root)</p>
+<p>Before proceeding to find another traversal order for two known traversal orders, let’s look at the code corresponding to different traversal orders</p>
+<p>Pre-order traversal</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/_ traverse a binary tree _/ in a recursive manner, in preorder</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PreOrderTraverse</span><span class="params">(BiTree t, <span class="keyword">int</span> level)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (t == <span class="literal">NULL</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"data = %c level = %d\n "</span>, t-&gt;data, level);</span><br><span class="line">  PreOrderTraverse(t-&gt;lchild, level + <span class="number">1</span>);</span><br><span class="line">  PreOrderTraverse(t-&gt;rchild, level + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Middle-order traversal</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/_ traverse a binary tree _/ in a recursive manner in middle order</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PreOrderTraverse</span><span class="params">(BiTree t, <span class="keyword">int</span> level)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (t == <span class="literal">NULL</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  PreOrderTraverse(t-&gt;lchild, level + <span class="number">1</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"data = %c level = %d\n "</span>, t-&gt;data, level);</span><br><span class="line">  PreOrderTraverse(t-&gt;rchild, level + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/_ Traverse a binary tree _/ in a recursive, post-order manner</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PreOrderTraverse</span><span class="params">(BiTree t, <span class="keyword">int</span> level)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (t == <span class="literal">NULL</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  PreOrderTraverse(t-&gt;lchild, level + <span class="number">1</span>);</span><br><span class="line">  PreOrderTraverse(t-&gt;rchild, level + <span class="number">1</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"data = %c level = %d\n "</span>, t-&gt;data, level);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The code corresponding to the three traversal methods is almost identical, except that the position of one statement has changed</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">"data = %c level = %d\n "</span>, t-&gt;data, level);</span><br></pre></td></tr></table></figure>
+
+<p>It is difficult to understand the process of traversal by just reading the text and code, so we suggest the reader to traverse the process himself.</p>
+<p>(Image source: <a href="https://www.cnblogs.com/xinchrome/p/4905608.html" target="_blank" rel="noopener">https://www.cnblogs.com/xinchrome/p/4905608.html</a>)</p>
+<p>Pre-order traversal<br>The characteristics of the traversal of the preorder, the root node -&gt; left subtree -&gt; right subtree, note that the code printf statement is placed before the two recursive statements, so first visit the root node G, print G, and then visit the left subtree D, at this time, the left subtree D as the root node, print D, and then visit the left subtree of D A</p>
+<p>A again as the root node, print A, A no left subtree or right subtree, the end of the function call returns to the D node (at this time has been printed out: GDA) D node of the left subtree has been recursively completed, now recursively visit the right subtree F, F as the root node, print F, F has left subtree visit the left subtree E, E as the</p>
+<p>root node, print E, (at this time has been printed out: GDAFE), E no left and right subtree, the function recursion ends to return to F node, the left subtree of F has recursion completed, but no right subtree, so the function recursion ends to return to D node, D node of the left subtree and right subtree recursion all complete.</p>
+<p>The function recursion ends and returns to the G node, visits the right subtree M of the G node, M as the root node, prints M, visits the left subtree H of M, H as the root node, prints H, (at this time has been printed out: GDAFEMH) H no left and right subtree, the function recursion ends and returns to the M node, the left subtree of the M node has</p>
+<p>recursion is complete, access the right subtree Z, Z as the root node, print Z, Z no left and right subtree, the function recursion is complete, return to the M node, M node of the left subtree right subtree recursion is complete, the function recursion is complete, return to the G node, G node of the left and right subtree recursion is complete, the entire binary tree traversal is complete</p>
+<p>(MGJ, finally finished -)</p>
+<p>Pre-order traversal result: GDAFEMHZ</p>
+<p>Summarize the steps of the preorder traversal</p>
+<p>Step 1: Print the node (on second thought, I removed the phrase “visit the root node”)</p>
+<p>Step 2: visit the left subtree and return to the first step (note: returning to the first step means that the left subtree of the root node is the new root node, as if D is the left subtree of G but D is also the root of A and F nodes)</p>
+<p>Step 3: Visit the right subtree and return to the first step</p>
+<p>Step 4: End the recursion and return to the previous node</p>
+<p>An alternative representation of preorder traversal.</p>
+<p>(1) Visit the root node</p>
+<p>(2) traversing the left subtree in the forward order</p>
+<p>(3) traversing the right subtree in the forward order</p>
+<p>(When completing steps 2 and 3, we also follow the rules for traversing a binary tree in the forward order)</p>
+<p>Pre-order traversal result: GDAFEMHZ</p>
+<p>Middle-order traversal (the detailed traversal process will not be repeated, (┬á┬á┬á))<br>Middle-order traversal steps<br>Step 1: Visit the left subtree of the node</p>
+<p>Step 2: If the node has a left subtree, then return to the first step, otherwise print the node</p>
+<p>Step 3: If the node has a right subtree, return to the first step, otherwise end the recursion and return to the previous node</p>
+<p>(according to my own understanding of the middle order is: first left to the end, left to the left can not be left to stop and print the node, and then return to the node’s previous node, and print the node, and then visit the node’s right subtree, and then left to the left can not be left to stop)</p>
+<p>Another representation of the mid-order traversal.</p>
+<p>(1) traversing the left subtree in the middle order</p>
+<p>(2) visit the root node</p>
+<p>(3) traversing the right subtree in middle order</p>
+<p>(When completing steps 1 and 3, follow the rules of mid-order traversal)</p>
+<p>So the middle-order traversal of the graph is: ADEFGHMZ</p>
+<p>Post-order traversal steps<br>Step 1: Visit the left subtree</p>
+<p>Step 2: If the node has a left subtree, return to the first step</p>
+<p>Step 3: If the node has a right subtree, return to the first step, otherwise print the node and return to the previous node</p>
+<p>Another representation of post-order traversal.</p>
+<p>(1) Post-order traversal of the left subtree</p>
+<p>(2) Post-order traversal of the right subtree</p>
+<p>(3) Accessing the root node</p>
+<p>(When completing steps 1 and 2, the rules for backward traversal are still followed)</p>
+<p>The post-order traversal of the graph is: AEFDHZMG</p>
+<p>(Readers who traverse the binary tree on paper, it is still easy to get the order wrong suggest to go back and look at the code corresponding to the three different traversals)</p>
+<p>Reconstruct the binary tree<br>The first: the known preorder traversal, middle-order traversal for the post-order traversal<br>Pre-order traversal: ABCDEF</p>
+<p>Middle-order traversal: CBDAEF</p>
+<p>Before the analysis, the reader needs to know the characteristics of different traversal results</p>
+<p>1, the first element of the preorder traversal is the root node of the entire binary tree</p>
+<p>2, the element to the left of the root node in the middle-order traversal is the left subtree, and the element to the right of the root node is the right subtree</p>
+<p>3, the last element of the post-order traversal is the root of the entire binary tree</p>
+<p>(If the reader does not understand the above three characteristics, it is recommended to go back and look at the code corresponding to the three different traversals and write a simple binary tree on paper with three different traversal results to deepen the understanding of the three different traversals)</p>
+<p>Using these features above to analyze the traversal results, the</p>
+<p>Step 1: First look at the preorder traversal A is definitely the root node</p>
+<p>The second step: to confirm the root node, and then look at the middle-order traversal, the root node A in the middle-order traversal of the left is CBD, the right is EF, all can determine the binary tree has both left and right subtree</p>
+<p>Step 3: First to analyze the left subtree CBD, then CBD who to do the left subtree of A? At this point, we cannot directly use the characteristics of the middle-order traversal (left-&gt;root-&gt;right) to derive the left subtree should look like this</p>
+<p>Because there are two cases that satisfy the middle-order traversal as CBD, we cannot directly derive the structure of the left subtree from the middle-order traversal, so we have to go back to the preorder traversal</p>
+<p>Observe the preorder traversal ABCDEF, the order of the left subtree CBD in the preorder traversal is BCD, which means that B is the root of the left subtree (this may not be well understood, another way to say it is that B is the left subtree of A), and this result is because if the root of a binary tree has a left subtree, then</p>
+<p>This result is because if the root of a binary tree has a left subtree, then this left subtree must follow the root in the preorder traversal (this is obtained by using the characteristics of preorder traversal (root-&gt;left-&gt;right)), and here we can confirm that B is the root of the left subtree.</p>
+<p>Step 4: then observe the middle-order traversal CBDAEF, B element left is C right is D, that B node has both left and right subtree, left and right subtree only one element can be directly determined, do not need to return to observe the pre-order traversal</p>
+<p>Step 5: Here the reconstruction of the left subtree has been completed, now rebuild the right subtree, because the process of reconstructing the right subtree and the process of the left subtree is exactly the same, the steps are not as detailed as the above ((┬á┬á┬á)), observe the middle-order traversal of the right subtree as EF, and then observe the pre-order traversal ABCDEF in the right subtree</p>
+<p>Observe that the right subtree of ABCDEF is EF, so E is the right subtree of A, and then observe that E has only F on the right side of the middle-order convenience, and all F is the right subtree of E. The final binary tree obtained is like this</p>
+<p>The resulting post-order traversal is: CDBFEA</p>
+<p>To summarize the above steps: first observe the preorder traversal to find the root node -&gt; observe the middle order traversal to classify the left side of the root node as the left subtree element and the right side as the right subtree element (there may be only left or right subtree) -&gt; observe the order of the left and right subtree elements in the preorder traversal, and the most forward is the root node of the left and right subtrees -&gt; repeat the previous steps</p>
+<p>The second: the known middle-order traversal, back-order traversal to find the front-order traversal (the question or the above)<br>Middle-order traversal: CBDAEF</p>
+<p>Post-order traversal is: CDBFEA</p>
+<p>still according to the characteristics of the results of different traversal to reconstruct the binary tree, the process is very similar here will not be detailed, the last element of the post-order traversal A is the root node, in the middle-order traversal to the root node A as a division of the elements into the left subtree (CBD) and the right subtree (EF), and then observe the order of the left subtree in the post-order traversal is CDB</p>
+<p>Then observe the middle order traversal, the left side of the B element is C and the right side is D. This means that the B node has both left and right subtrees, and only one element of the left and right subtrees can be determined directly without going back to observe the back order traversal, and the left subtree reconstruction is completed.</p>
+<p>Now look at the right subtree, the right subtree has two elements EF, observe the post-order traversal E in the back of F, so E is the root of the right subtree, and then look at the middle-order traversal E only right an F element, that is, F is the right subtree of E, at this time the entire binary tree reconstruction is complete</p>
+<p>To summarize the above steps: first observe the post-order traversal to find the root node -&gt; observe the middle-order traversal to classify the left side of the root node as the left subtree element and the right side as the right subtree element (there may be only left or right subtree) -&gt; observe the order of the left and right subtree elements in the post-order traversal, and the most backward one is the root of the left and right subtree -&gt; repeat the previous steps</p>
+<p>Note<br>Known that the preorder traversal, post-order traversal can not be derived from the middle-order traversal (because there is more than one kind of binary tree reconstructed from the preorder and post-order)</p>
+<p>For example, the two binary trees on the left have the same preorder (BEFA) and postorder (AFEB), but the corresponding middle-order traversal results are different (the left one is AFEB, the right one is BEFA), so it is impossible to reconstruct a unique binary tree by preorder and postorder alone</p>
+<p>Translated with <a href="http://www.DeepL.com/Translator" target="_blank" rel="noopener">www.DeepL.com/Translator</a> (free version)</p>
+<p>之前的一篇随笔（二叉树、前序遍历、中序遍历、后序遍历）只对二叉树的遍历进行了笼统的描述，这篇随笔重点对前、中、后序的遍历顺序进行分析</p>
+<p>二叉树的遍历<br>二叉树的深度优先遍历可细分为前序遍历、中序遍历、后序遍历，这三种遍历可以用递归实现（本篇随笔主要分析递归实现），也可使用非递归实现的</p>
+<p>前序遍历：根节点-&gt;左子树-&gt;右子树（根-&gt;左-&gt;右）</p>
+<p>中序遍历：左子树-&gt;根节点-&gt;右子树（左-&gt;根-&gt;右）</p>
+<p>后序遍历：左子树-&gt;右子树-&gt;根节点（左-&gt;右-&gt;根）</p>
+<p>在进行已知两种遍历顺序求另一种遍历顺序前，先看一下不同遍历顺序对应的代码</p>
+<p>前序遍历</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/_ 以递归方式 前序遍历二叉树 _/</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PreOrderTraverse</span><span class="params">(BiTree t, <span class="keyword">int</span> level)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (t == <span class="literal">NULL</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"data = %c level = %d\n "</span>, t-&gt;data, level);</span><br><span class="line">  PreOrderTraverse(t-&gt;lchild, level + <span class="number">1</span>);</span><br><span class="line">  PreOrderTraverse(t-&gt;rchild, level + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>中序遍历</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/_ 以递归方式 中序遍历二叉树 _/</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PreOrderTraverse</span><span class="params">(BiTree t, <span class="keyword">int</span> level)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (t == <span class="literal">NULL</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  PreOrderTraverse(t-&gt;lchild, level + <span class="number">1</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"data = %c level = %d\n "</span>, t-&gt;data, level);</span><br><span class="line">  PreOrderTraverse(t-&gt;rchild, level + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/_ 以递归方式 后序遍历二叉树 _/</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PreOrderTraverse</span><span class="params">(BiTree t, <span class="keyword">int</span> level)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (t == <span class="literal">NULL</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  PreOrderTraverse(t-&gt;lchild, level + <span class="number">1</span>);</span><br><span class="line">  PreOrderTraverse(t-&gt;rchild, level + <span class="number">1</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"data = %c level = %d\n "</span>, t-&gt;data, level);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>三种遍历方式对应的代码几乎相同，只是一条语句的位置发生了变化</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">"data = %c level = %d\n "</span>, t-&gt;data, level);</span><br></pre></td></tr></table></figure>
+
+<p>只看文字和代码来理解遍历的过程是比较困难的，建议读者亲自去遍历，为了理清遍历的过程下面上题</p>
+<p>（图片来源：<a href="https://www.cnblogs.com/xinchrome/p/4905608.html）" target="_blank" rel="noopener">https://www.cnblogs.com/xinchrome/p/4905608.html）</a></p>
+<p>前序遍历<br>前序的遍历的特点，根节点-&gt;左子树-&gt;右子树，注意看前序的遍历的代码 printf 语句是放在两条递归语句之前的，所以先访问根节点 G，打印 G，然后访问左子树 D，此时左子树 D 又作为根节点，打印 D，再访问 D 的左子树 A</p>
+<p>A 又作为根节点，打印 A，A 没有左子树或者右子树，函数调用结束返回到 D 节点（此时已经打印出来的有：GDA）D 节点的左子树已经递归完成，现在递归访问右子树 F，F 作为根节点，打印 F，F 有左子树访问左子树 E，E 作为</p>
+<p>根节点，打印 E，（此时已经打印出来的有：GDAFE），E 没有左子树和右子树，函数递归结束返回 F 节点，F 的左子树已经递归完成了，但没有右子树，所以函数递归结束，返回 D 节点，D 节点的左子树和右子树递归全部完成，</p>
+<p>函数递归结束返回 G 节点，访问 G 节点的右子树 M，M 作为根节点，打印 M，访问 M 的左子树 H，H 作为根节点，打印 H，（此时已经打印出来的有：GDAFEMH）H 没有左子树和右子树，函数递归结束，返回 M 节点，M 节点的左子树已经</p>
+<p>递归完成，访问右子树 Z，Z 作为根节点，打印 Z，Z 没有左子树和右子树，函数递归结束，返回 M 节点，M 节点的左子树右子树递归全部完成，函数递归结束，返回 G 节点，G 节点的左右子树递归全部完成，整个二叉树的遍历就结束了</p>
+<p>（MGJ，终于打完了··）</p>
+<p>前序遍历结果：GDAFEMHZ</p>
+<p>总结一下前序遍历步骤</p>
+<p>第一步：打印该节点（再三考虑还是把访问根节点这句话去掉了）</p>
+<p>第二步：访问左子树，返回到第一步（注意：返回到第一步的意思是将根节点的左子树作为新的根节点，就好比图中 D 是 G 的左子树但是 D 也是 A 节点和 F 节点的根节点）</p>
+<p>第三步：访问右子树，返回到第一步</p>
+<p>第四步：结束递归，返回到上一个节点</p>
+<p>前序遍历的另一种表述：</p>
+<p>（1）访问根节点</p>
+<p>（2）前序遍历左子树</p>
+<p>（3）前序遍历右子树</p>
+<p>（在完成第 2,3 步的时候，也是要按照前序遍历二叉树的规则完成）</p>
+<p>前序遍历结果：GDAFEMHZ</p>
+<p>中序遍历（详细遍历过程就不再赘述了，(┬＿┬)）<br>中序遍历步骤<br>第一步：访问该节点左子树</p>
+<p>第二步：若该节点有左子树，则返回第一步，否则打印该节点</p>
+<p>第三步：若该节点有右子树，则返回第一步，否则结束递归并返回上一节点</p>
+<p>（按我自己理解的中序就是：先左到底，左到不能在左了就停下来并打印该节点，然后返回到该节点的上一节点，并打印该节点，然后再访问该节点的右子树，再左到不能再左了就停下来）</p>
+<p>中序遍历的另一种表述：</p>
+<p>（1）中序遍历左子树</p>
+<p>（2）访问根节点</p>
+<p>（3）中序遍历右子树</p>
+<p>（在完成第 1，3 步的时候，要按照中序遍历的规则来完成）</p>
+<p>所以该图的中序遍历为：ADEFGHMZ</p>
+<p>后序遍历步骤<br>第一步：访问左子树</p>
+<p>第二步：若该节点有左子树，返回第一步</p>
+<p>第三步：若该节点有右子树，返回第一步，否则打印该节点并返回上一节点</p>
+<p>后序遍历的另一种表述：</p>
+<p>（1）后序遍历左子树</p>
+<p>（2）后序遍历右子树</p>
+<p>（3）访问根节点</p>
+<p>（在完成 1,2 步的时候，依然要按照后序遍历的规则来完成）</p>
+<p>该图的后序遍历为：AEFDHZMG</p>
+<p>（读者如果在纸上遍历二叉树的时候，仍然容易将顺序搞错建议再回去看一下三种不同遍历对应的代码）</p>
+<p>重构二叉树<br>第一种：已知前序遍历、中序遍历求后序遍历<br>前序遍历：ABCDEF</p>
+<p>中序遍历：CBDAEF</p>
+<p>在进行分析前读者需要知道不同遍历结果的特点</p>
+<p>1、前序遍历的第一元素是整个二叉树的根节点</p>
+<p>2、中序遍历中根节点的左边的元素是左子树，根节点右边的元素是右子树</p>
+<p>3、后序遍历的最后一个元素是整个二叉树的根节点</p>
+<p>（如果读者不明白上述三个特点，建议再回去看一下三种不同遍历对应的代码，并在纸上写出一个简单的二叉树的三种不同的遍历结果，以加深对三种不同遍历的理解）</p>
+<p>用上面这些特点来分析遍历结果，</p>
+<p>第一步：先看前序遍历 A 肯定是根节点</p>
+<p>第二步：确认了根节点，再来看中序遍历，中序遍历中根节点 A 的左边是 CBD，右边是 EF，所有可以确定二叉树既有左子树又有右子树</p>
+<p>第三步：先来分析左子树 CBD，那么 CBD 谁来做 A 的左子树呢？这个时候不能直接用中序遍历的特点（左-&gt;根-&gt;右）得出左子树应该是这个样子</p>
+<p>因为有两种情况都满足中序遍历为 CBD 无法直接根据中序遍历来直接得出左子树的结构，这个时候就要返回到前序遍历中去</p>
+<p>观察前序遍历 ABCDEF，左子树 CBD 在前序遍历中的顺序是 BCD，意味着 B 是左子树的根节点（这么说可能不太好理解，换个说法就是 B 是 A 的左子树）,得出这个结果是因为如果一个二叉树的根节点有左子树，那么</p>
+<p>这个左子树一定在前序遍历中一定紧跟着根节点（这个是用前序遍历的特点（根-&gt;左-&gt;右）得出的）,到这里就可以确认 B 是左子树的根节点</p>
+<p>第四步：再观察中序遍历 CBDAEF，B 元素左边是 C 右边是 D，说明 B 节点既有左子树又有右子树，左右子树只有一个元素就可以直接确定了，不用再返回去观察前序遍历</p>
+<p>第五步：到这里左子树的重建就已经完成了，现在重建右子树，因为重建右子树的过程和左子树的过程一模一样，步骤就不像上面写这么细了（(┬＿┬)），观察中序遍历右子树为 EF，再观察前序遍历 ABCDEF 中右子树</p>
+<p>的顺序为 EF，所以 E 为 A 的右子树，再观察中序便利中 E 只有右边有 F，所有 F 为 E 的右子树，最后得到的二叉树是这个样子的</p>
+<p>所有求得的后序遍历为：CDBFEA</p>
+<p>总结一下上述步骤： 先观察前序遍历找到根节点-&gt;观察中序遍历将根节点左边归为左子树元素，右边归为右子树元素（可能会出现只有左子树或者右子树的情况）-&gt;观察前序遍历中左\右子树几个元素的顺序，最靠前的为左\右子树的根节点-&gt;重复前面的步骤</p>
+<p>第二种：已知中序遍历、后序遍历求前序遍历（题还是上面这道）<br>中序遍历：CBDAEF</p>
+<p>后序遍历为：CDBFEA</p>
+<p>仍然是根据不同遍历方式结果的特点来重构二叉树，过程很相似这里就不详细说了，后序遍历的最后一个元素 A 是根节点，在中序遍历中以根节点 A 作为分界将元素分为左子树（CBD）和右子树（EF），再观察后序遍历中左子树的顺序是 CDB</p>
+<p>，可以判断出 B 是左子树的根节点（因为后序遍历是：左-&gt;右-&gt;根），再观察中序遍历，B 元素左边是 C 右边是 D，说明 B 节点既有左子树又有右子树，左右子树只有一个元素就可以直接确定了，不用再返回去观察后序遍历，左子树重建完成，</p>
+<p>现在来看右子树，右子树有两个元素 EF，观察后序遍历 E 在 F 的后面，所以 E 是右子树的根节点，然后看中序遍历中 E 只有右边一个 F 元素了，即 F 是 E 的右子树，此时整个二叉树重构完成</p>
+<p>总结一下上述步骤：先观察后序遍历找到根节点-&gt;观察中序遍历将根节点左边归为左子树元素，右边归为右子树元素（可能会出现只有左子树或者右子树的情况）-&gt;观察后序遍历中左\右子树几个元素的顺序，最靠后的为左\右子树的根节点-&gt;重复前面的步骤</p>
+<p>注意<br>已知前序遍历、后序遍历无法求出中序遍历（因为由前序后序重构出来的二叉树不止一种）</p>
+<p>举个栗子左图这两种二叉树前序（BEFA）和后序（AFEB）一样，但对应的中序遍历结果不一样（左边的是 AFEB 右边的是 BEFA），所以仅靠前序后序是无法重构出唯一的二叉树</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Zhenglin Li</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://zhenglin-li.github.io/ZhengLin-Li.github.io.butterfly/[object%20Object]/2023/01/18/Traversal%20of%20a%20binary%20treeundefined">https://zhenglin-li.github.io/ZhengLin-Li.github.io.butterfly/[object%20Object]/2023/01/18/Traversal%20of%20a%20binary%20treeundefined</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://zhenglin-li.github.io/ZhengLin-Li.github.io.butterfly" target="_blank">熊儿老猫的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/useblue/ucdn/imgs/bp-6.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="../assets/wechatpay.jpg" target="_blank"><img class="post-qr-code-img" data-lazy-src="/ZhengLin-Li.github.io.butterfly/../assets/wechatpay.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="../assets/alipay.jpg" target="_blank"><img class="post-qr-code-img" data-lazy-src="/ZhengLin-Li.github.io.butterfly/../assets/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/ZhengLin-Li.github.io.butterfly/%5Bobject%20Object%5D/2023/01/18/A%20first%20look%20at%20C++%20(1)%20copy%201undefined"><img class="prev-cover" data-lazy-src="https://cdn.jsdelivr.net/gh/useblue/ucdn/imgs/bp-6.webp" onerror="onerror=null;src='/ZhengLin-Li.github.io.butterfly/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">A first look at C++ (1) copy 1</div></div></a></div><div class="next-post pull-right"><a href="/ZhengLin-Li.github.io.butterfly/%5Bobject%20Object%5D/2023/01/18/todoundefined"><img class="next-cover" data-lazy-src="https://cdn.jsdelivr.net/gh/useblue/ucdn/imgs/bp-8.webp" onerror="onerror=null;src='/ZhengLin-Li.github.io.butterfly/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">todo</div></div></a></div></nav></article></main><footer id="footer" style="background-image: url(https://cdn.jsdelivr.net/gh/useblue/ucdn/imgs/bp-6.webp)" data-type="photo"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Zhenglin Li</div><div class="framework-info"><span>框架 </span><a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font_plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font_minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/ZhengLin-Li.github.io.butterfly/js/utils.js"></script><script src="/ZhengLin-Li.github.io.butterfly/js/main.js"></script><script src="/ZhengLin-Li.github.io.butterfly/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script><script>var endLoading = function () {
+  document.body.style.overflow = 'auto';
+  document.getElementById('loading-box').classList.add("loaded")
+}
+window.addEventListener('load',endLoading)</script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><canvas class="fireworks"></canvas><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="/ZhengLin-Li.github.io.butterfly/js/third-party/fireworks.js"></script><script defer="defer" id="ribbon_piao" mobile="false" src="/ZhengLin-Li.github.io.butterfly/js/third-party/piao.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="/ZhengLin-Li.github.io.butterfly/js/third-party/canvas-nest.js"></script></div><script src="https://cdn.jsdelivr.net/npm/live2d-widget@^3.1.3/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/ZhengLin-Li.github.io.butterfly/live2dw/assets/tororo.model.json"},"display":{"superSample":2,"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-90},"mobile":{"show":true,"scale":1},"react":{"opacityDefault":0.3,"opacityOnHover":0.3,"opacity":0.95},"log":false});</script></body></html>
